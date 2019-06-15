@@ -1,4 +1,9 @@
 ---
+- name: Set facts
+  set_fact:
+    key: "{{ 59 |random(seed=email) }}"
+    expiry: "{{ lookup('pipe','date +%s -d '+1 hour') }}"
+
 - name: Template a file
   template:
     src: email_template.j2
@@ -13,3 +18,7 @@
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
     body: "{{lookup('file', '/tmp/email_body.txt')}}"
+
+- name: Create entry at spreadsheet
+  uri:
+    url: "https://script.google.com/macros/s/***REMOVED***/exec?op=add&key={{key}}&expiry={{expiry}}"
