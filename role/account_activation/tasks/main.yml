@@ -1,0 +1,15 @@
+---
+- name: Template a file
+  template:
+    src: email_template.j2
+    dest: /tmp/email_body.txt
+
+- name: Sending an automated e-mail to user
+  mail:
+    subtype: html
+    host: smtp.corp***REMOVED***com
+    port: 25
+    from: no-reply@***REMOVED***com
+    to: "{{ email }}"
+    subject: "***REMOVED***: Activate your account"
+    body: "{{lookup('file', 'email_body.txt')}}"
