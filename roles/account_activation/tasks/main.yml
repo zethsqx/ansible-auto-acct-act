@@ -12,4 +12,4 @@
     from: no-reply@***REMOVED***com
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
-    body: "{{lookup('file', 'email_body.txt')}}"
+    body: "{{lookup('file', '/tmp/email_body.txt')}}"
