@@ -1,7 +1,7 @@
 ---
 - name: Set facts
   set_fact:
-    key: "{{ 59 |random(seed=email) }}"
+    key: "{{ email | password_hash('sha512') }}"
     expiry: "{{ lookup('pipe','date +%s -d +1hour') }}"
 
 - name: Template a file
