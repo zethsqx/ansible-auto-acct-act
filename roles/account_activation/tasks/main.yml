@@ -7,7 +7,7 @@
 - name: Template a file
   template:
     src: email_template.j2
-    dest: /tmp/email_body.txt
+    dest: "/tmp/email_{{ key }}.txt"
 
 - name: Sending an automated e-mail to user
   mail:
@@ -17,8 +17,15 @@
     from: no-reply@***REMOVED***com
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
-    body: "{{lookup('file', '/tmp/email_body.txt')}}"
+    body: 'lookup("file", "/tmp/email_{{ key }}.txt")'
 
 - name: Create entry at spreadsheet
   uri:
     url: "https://script.google.com/macros/s/***REMOVED***/exec?op=add&key={{key}}&expiry={{expiry}}"
+
+- name: Poll until account activated or 1hour
+  shell: curl -k -L "https://script.google.com/macros/s/AKfycbx00ANVXH0PoiWMTUAn1SXc0KqdYAVpSkdo6jtRM_d3dQHmMk/exec?op=query&key=12345"
+  register: result
+  until: "{{ result == 'E' or result == 'A' }}"
+  retries: 360
+  delay: 10
