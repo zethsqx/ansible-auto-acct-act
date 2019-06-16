@@ -17,7 +17,7 @@
     from: no-reply@***REMOVED***com
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
-    body: 'lookup("file", "/tmp/email_{{ expiry }}.txt")'
+    body: "lookup('file', '/tmp/email_{{ expiry }}.txt')"
 
 - name: Create entry at spreadsheet
   uri:
@@ -26,6 +26,6 @@
 - name: Poll until account activated or 1hour
   shell: curl -k -L "https://script.google.com/macros/s/AKfycbx00ANVXH0PoiWMTUAn1SXc0KqdYAVpSkdo6jtRM_d3dQHmMk/exec?op=query&key=12345"
   register: result
-  until: "{{ result == 'E' or result == 'A' }}"
+  until: "{{ result.stdout == 'E' or result.stdout == 'A' }}"
   retries: 360
   delay: 10
