@@ -7,7 +7,7 @@
 - name: Template a file
   template:
     src: email_template.j2
-    dest: "/tmp/email_{{ key }}.txt"
+    dest: "/tmp/email_{{ expiry }}.txt"
 
 - name: Sending an automated e-mail to user
   mail:
@@ -17,7 +17,7 @@
     from: no-reply@***REMOVED***com
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
-    body: 'lookup("file", "/tmp/email_{{ key }}.txt")'
+    body: 'lookup("file", "/tmp/email_{{ expiry }}.txt")'
 
 - name: Create entry at spreadsheet
   uri:
