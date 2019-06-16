@@ -1,7 +1,7 @@
 ---
 - name: Set facts
   set_fact:
-    key: "{{ email | password_hash('md5') }}"
+    key: "{{ email | hash('md5') }}"
     expiry: "{{ lookup('pipe','date +%s -d +1hour') }}"
 
 - name: Template a file
