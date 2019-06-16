@@ -17,7 +17,7 @@
     from: no-reply@***REMOVED***com
     to: "{{ email }}"
     subject: "***REMOVED***: Activate your account"
-    body: "{{ lookup('file', '/tmp/email_' + expiry + '.txt' }}"
+    body: "{{ lookup('file', '/tmp/email_' + expiry + '.txt') }}"
 
 - name: Create entry at spreadsheet
   uri:
