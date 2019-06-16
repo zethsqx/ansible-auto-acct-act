@@ -23,6 +23,13 @@
   uri:
     url: "https://script.google.com/macros/s/***REMOVED***/exec?op=add&key={{key}}&expiry={{expiry}}"
 
+- name: [TEST] Poll until account activated or 1hour
+  shell: curl -k -L "https://script.google.com/macros/s/AKfycbx00ANVXH0PoiWMTUAn1SXc0KqdYAVpSkdo6jtRM_d3dQHmMk/exec?op=query&key=12345"
+  register: result_test
+
+- debug:
+    var: result_test
+
 - name: Poll until account activated or 1hour
   shell: curl -k -L "https://script.google.com/macros/s/AKfycbx00ANVXH0PoiWMTUAn1SXc0KqdYAVpSkdo6jtRM_d3dQHmMk/exec?op=query&key=12345"
   register: result
