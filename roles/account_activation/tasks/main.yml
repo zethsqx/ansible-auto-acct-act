@@ -34,8 +34,8 @@
   shell: curl -k -L "https://script.google.com/macros/s/***REMOVED***/exec?op=query&key={{key}}"
   register: result
   until: "{{ '<result>E</result>' in result.stdout or '<result>A</result>' in result.stdout }}"
-  retries: 360
-  delay: 10
+  retries: 200
+  delay: 3
 
 - name: Delete user activation key
   uri:

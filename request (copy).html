@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Request Account</title>
+    <style>
+        /*custom font*/
+        
+        @import url(http://fonts.googleapis.com/css?family=Montserrat);
+        /*basic reset*/
+        
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            height: 100%;
+            background: linear-gradient(-45deg, #fff 0%, #eee 22%, #f6f6f6 22.01%, #fff 85%, #fafafa 85.01%, #fff 100%);
+        }
+        
+        body {
+            font-family: montserrat, arial, verdana;
+        }
+        /*form styles*/
+        
+        #msform {
+            width: 400px;
+            margin: 150px auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 3px;
+            box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+            padding: 20px 30px;
+            box-sizing: border-box;
+            width: 80%;
+            margin: 0 10%;
+            /*stacking fieldsets above each other*/
+            position: absolute;
+        }
+        /*Hide all except first fieldset*/
+        
+        #msform fieldset:not(:first-of-type) {
+            display: none;
+        }
+        /*inputs*/
+        
+        #msform input,
+        #msform textarea {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: #2C3E50;
+            font-size: 13px;
+        }
+        /*buttons*/
+        
+        #msform .action-button {
+            width: 100px;
+            background: #27AE60;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 1px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px;
+        }
+        
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+        }
+        /*headings*/
+        
+        .fs-title {
+            font-size: 15px;
+            text-transform: uppercase;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+        
+        .fs-subtitle {
+            font-weight: normal;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+
+   // <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        //jQuery time
+        var current_fs, next_fs, previous_fs; //fieldsets
+        var left, opacity, scale; //fieldset properties which we will animate
+        var animating; //flag to prevent quick multi-click glitches
+
+        $(".next").click(function() {
+		$.ajax({
+		    url: "https://192.168.1.208:443/api/v2/job_templates/12/callback/",
+		    type: 'POST',
+		    dataType: 'json',
+		    contentType: 'application/json',
+		    data: {
+			"host_config_key": "***REMOVED***",
+			"extra_vars": {
+					"email": "***REMOVED***"
+					}
+			},
+		    success: function (data) {
+			alert(JSON.stringify(data));
+		    },
+		    error: function(){
+			alert("Cannot get data");
+		    }
+		});
+
+            if (animating) return false;
+            animating = true;
+
+            current_fs = $(this).parent();
+            next_fs = $(this).parent().next();
+
+            //activate next step on progressbar using the index of next_fs
+            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+            //show the next fieldset
+            next_fs.show();
+            //hide the current fieldset with style
+            current_fs.animate({
+                opacity: 0
+            }, {
+                step: function(now, mx) {
+                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                    //1. scale current_fs down to 80%
+                    scale = 1 - (1 - now) * 0.2;
+                    //2. bring next_fs from the right(50%)
+                    left = (now * 50) + "%";
+                    //3. increase opacity of next_fs to 1 as it moves in
+                    opacity = 1 - now;
+                    current_fs.css({
+                        'transform': 'scale(' + scale + ')'
+                    });
+                    next_fs.css({
+                        'left': left,
+                        'opacity': opacity
+                    });
+                },
+                duration: 800,
+                complete: function() {
+                    current_fs.hide();
+                    animating = false;
+                },
+                //this comes from the custom easing plugin
+                easing: 'easeInOutBack'
+            });
+        });
+
+        $(function() {
+            $("#datepicker1").datepicker();
+        });
+        $(function() {
+            $("#datepicker2").datepicker();
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- multistep form -->
+    <form id="msform">
+        <!-- fieldsets -->
+        <fieldset>
+            <h2 class="fs-title">request your account</h2>
+            <h3 class="fs-subtitle"><br></h3>
+            <input type="text" name="email" placeholder="Email" />
+            <input type="text" id="start-datepicker" name="startdate" placeholder="Start Date" />
+            <input type="text" id="end-datepicker" name="enddate" placeholder="End Date" />
+            <input type="button" name="request" class="next action-button" value="Request" /> 
+	</fieldset>
+    </form>
+</body>
+
+</html>
