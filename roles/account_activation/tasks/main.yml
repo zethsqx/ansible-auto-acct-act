@@ -12,26 +12,26 @@
 - name: Sending an automated e-mail to user
   mail:
     subtype: html
-    host: smtp.corp***REMOVED***com
+    host: smtp@example.com
     port: 25
-    from: no-reply@***REMOVED***com
+    from: no-reply@example.com
     to: "{{ email }}"
-    subject: "***REMOVED***: Activate your account"
+    subject: "No-reply: Activate your account"
     body: "{{ lookup('file', '/tmp/email_' + expiry + '.txt') }}"
 
 - name: Create entry at spreadsheet
   uri:
-    url: "https://script.google.com/macros/s/***REMOVED***/exec?op=add&key={{key}}&expiry={{expiry}}"
+    url: "https://script.google.com/macros/s/abc123def456ghi789/exec?op=add&key={{key}}&expiry={{expiry}}"
 
 - name: TESTING Poll until account activated or 1hour
-  shell: curl -k -L "https://script.google.com/macros/s/***REMOVED***/exec?op=query&key={{key}}"
+  shell: curl -k -L "https://script.google.com/macros/s/abc123def456ghi789/exec?op=query&key={{key}}"
   register: result_test
 
 - debug:
     var: result_test
 
 - name: Poll until account activated or 1hour
-  shell: curl -k -L "https://script.google.com/macros/s/***REMOVED***/exec?op=query&key={{key}}"
+  shell: curl -k -L "https://script.google.com/macros/s/abc123def456ghi789/exec?op=query&key={{key}}"
   register: result
   until: "{{ '<result>E</result>' in result.stdout or '<result>A</result>' in result.stdout }}"
   retries: 200
@@ -39,7 +39,7 @@
 
 - name: Delete user activation key
   uri:
-    url: "https://script.google.com/macros/s/***REMOVED***/exec?op=delete&key={{key}}"
+    url: "https://script.google.com/macros/s/abc123def456ghi789/exec?op=delete&key={{key}}"
 
 - debug:
     msg: "Create accouunt"

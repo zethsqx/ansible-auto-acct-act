@@ -13,7 +13,7 @@ function doGet(e) {
     try{
       var actKey = e.parameter.key;
       var result = activateUser(actKey)
-      return HtmlService.createHtmlOutput((result).toString() + "<script>setTimeout(function(){window.top.location.href='***REMOVED***'}, 5000);</script>");
+      return HtmlService.createHtmlOutput((result).toString() + "<script>setTimeout(function(){window.top.location.href='http://internal.portal.com/guacamole'}, 5000);</script>");
     } catch (ex) {
       return HtmlService.createHtmlOutput("Opppps. Something is wrong.");
     }
@@ -103,7 +103,7 @@ function activateUser(actKey){
   var currDatetime = Math.round((new Date()).getTime() / 1000);
   if ( currDatetime < expireOn) {
     setState(actKey, "A"); 
-    return "Account activated. You will be redirected shortly or visit <a href='***REMOVED***'>***REMOVED***</a>"
+    return "Account activated. You will be redirected shortly or visit <a href='http://internal.portal.com/guacamole'>http://internal.portal.com/guacamole</a>"
   } else {
     setState(actKey, "E");
     return "Account activation has expired. Request again."
