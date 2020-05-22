@@ -17,19 +17,19 @@ Use ansible to manage a self service account activation process:
 7. Ansible will create account if poll result is positive
 8. User can login using the created account
 
-Ansible - 
+#### Ansible - 
 * main.yml  
   roles/account_activation:    
     * tasks/main.yml  
     * templates/email_template.j2
 
-Webpage - 
+#### Webpage - 
 * request.html
   * account creation page
 * index.html
   * general login page meant to replace guacamole default page
 
-Google AppScript -
+#### Google AppScript -
 * doGet(e)
 e is query type: 
   * add -   
