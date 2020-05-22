@@ -8,9 +8,9 @@ Webpage |----| Ansible |----| Google AppScript |----| Google Sheet
 Use ansible to manage a self service account activation process:  
 
 1. User will access webpage to request account
-2. Ansible will generate an activation key and 
-  3a. Ansible will send email with activation link 
-  3b. Ansible will send activation key to Google AppScript
+2. Ansible will generate an activation key and  
+  2a. Ansible will send email with activation link  
+  2b. Ansible will send activation key to Google AppScript  
 4. Google AppScript will assign the key with an expiry time and store into GoogleSheet
 5. When user click on the activation link, it will activate and redirect to the portal
 6. Ansible will poll Google AppScript to check if user activated the link
