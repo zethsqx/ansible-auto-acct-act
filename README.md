@@ -1,4 +1,4 @@
-# Ansible-ActivateMe
+# Ansible Auto Account Activation
 
 Using ansible to self-service account activation
 
